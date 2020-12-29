@@ -1,0 +1,1399 @@
+{
+	"info": {
+		"_postman_id": "953e49fe-d82b-4c05-9532-81e9176903cf",
+		"name": "BIM360 Assets Learning Tutorial",
+		"description": "The collection together with the environment shows you how to create a new category, create a new asset with status and create custom attributes, associate it with assets, then update the attribute value. \n\nSteps to operate with the endpoints:\n1. Step up the environment, please create a Forge App, and copy|paste \"client_id\", \"client_secret\" to the enviornment vailbale, and set the \"project_name\" to the name which you want to operate.\n\n2. Before using the collection, please add the Authorization for the collection, click \"Edit Collection\", go to \"Authorization\" tab, make sure to use \"OAuth 2.0\" to get a 3 legged token, and use it in the \"Request Headers\".\n\n3. Follow step 1 to step 9 to create a new asset with status and create custom attributes, associate it with assets, then update the attribute value.\n\n4. Follow step 10 to step 16 to associate issues to an asset and associate checklist template to a category.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1: Find all hubs within your account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+							"",
+							"// find the specified project and setup the environment variable \"hub_id\"",
+							"var hub_name =  pm.environment.get(\"hub_name\");",
+							"var responseBody = JSON.parse(responseBody);",
+							"for ( var index in responseBody.data) {",
+							"    if(responseBody.data[index].id.indexOf(\"b.\") != -1 && responseBody.data[index].attributes.name == hub_name){",
+							"        postman.setEnvironmentVariable(\"hub_id\", responseBody.data[index].id);",
+							"        postman.setEnvironmentVariable(\"account_id\", responseBody.data[index].id.split(\"b.\").join(\"\"));",
+							"        break;",
+							"    }",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"hub_name\", \"change to your hub/account name\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_domain}}/project/v1/hubs",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"project",
+						"v1",
+						"hubs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2: Find projects within a BIM360 hub",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+							"",
+							"// find the specified project and setup the environment variable \"project_id\"",
+							"var project_name =  pm.environment.get(\"project_name\");",
+							"var responseBody = JSON.parse(responseBody);",
+							"for ( var index in responseBody.data) {",
+							"    if(responseBody.data[index].attributes.name == project_name){",
+							"        postman.setEnvironmentVariable(\"project_id\", responseBody.data[index].id);",
+							"        postman.setEnvironmentVariable(\"assets_project_id\", responseBody.data[index].id.split(\"b.\").join(\"\"));",
+							"        break;",
+							"    }",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"project_name\", \"change to your project name\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_domain}}/project/v1/hubs/{{hub_id}}/projects",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"project",
+						"v1",
+						"hubs",
+						"{{hub_id}}",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3: Find root assets categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody.results && responseBody.results.length > 0).to.eql(true);",
+							"",
+							"    if(responseBody.results.length > 0) {",
+							"        var rootCategory = responseBody.results.find(cate => cate.name == \"ROOT\" && cate.createdBy == \"assets-service\");",
+							"        pm.environment.set(\"asset_category_parent_id\", rootCategory.id);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/categories",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v1",
+						"projects",
+						":projectId",
+						"categories"
+					],
+					"query": [
+						{
+							"key": "cursorState",
+							"value": "",
+							"description": "Opaque cursor token for pagination. Should be left blank for the initial call. Subsequent calls should use the cursorState found in the previous response. To reinitiate pagination, omit cursorState.",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "100",
+							"description": "The maximum number of objects that can be returned. A query might return fewer than the value of limit due to filtering or other reasons.",
+							"disabled": true
+						},
+						{
+							"key": "filter[isActive]",
+							"value": "true",
+							"description": "Filter to entities that are active or inactive",
+							"disabled": true
+						},
+						{
+							"key": "filter[parentId]",
+							"value": "",
+							"description": "Filter categories to direct children of the given parentId (a category ID)",
+							"disabled": true
+						},
+						{
+							"key": "filter[maxDepth]",
+							"value": "",
+							"description": "Filter categories to a maximum depth. Depth 0 means to only return the ROOT category.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "projectId",
+							"value": "{{assets_project_id}}",
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet all Categories paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-categories-GET/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4: Create a new category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody).to.have.property(\"id\");",
+							"    pm.environment.set(\"asset_category_id\", responseBody.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function guid(format = 'xxxxxxxxxx') {",
+							"    var d = new Date().getTime()",
+							"",
+							"    var guid = format.replace(",
+							"      /[xy]/g,",
+							"      function (c) {",
+							"        var r = (d + Math.random() * 16) % 16 | 0",
+							"        d = Math.floor(d / 16)",
+							"        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16)",
+							"      })",
+							"",
+							"    return guid",
+							"  }",
+							"",
+							"pm.environment.set(\"asset_category_name\", \"Assets API Tutorial-\" + guid());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{asset_category_name}}\",\n    \"description\": \"Category for Assets API Tutorial\",\n    \"parentId\": \"{{asset_category_parent_id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/categories",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v1",
+						"projects",
+						":projectId",
+						"categories"
+					],
+					"variable": [
+						{
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
+							"enabled": true,
+							"key": "projectId",
+							"type": "text",
+							"value": "{{assets_project_id}}"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nCreate a new Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-categories-POST/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 5: Find asset statuses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody.results && responseBody.results.length > 0).to.eql(true);",
+							"",
+							"    if(responseBody.results.length > 0) {",
+							"        pm.environment.set(\"asset_status_id\", responseBody.results[0].id);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/asset-statuses",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v1",
+						"projects",
+						":projectId",
+						"asset-statuses"
+					],
+					"query": [
+						{
+							"key": "cursorState",
+							"value": "",
+							"description": "Opaque cursor token for pagination. Should be left blank for the initial call. Subsequent calls should use the cursorState found in the previous response. To reinitiate pagination, omit cursorState.",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "100",
+							"description": "The maximum number of objects that can be returned. A query might return fewer than the value of limit due to filtering or other reasons.",
+							"disabled": true
+						},
+						{
+							"key": "includeDeleted",
+							"value": "true",
+							"description": "Indicates if soft-deleted objects should be included in the response. By default, soft-deleted objects are NOT returned.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "projectId",
+							"value": "{{assets_project_id}}",
+							"type": "string",
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet all Assets Statuses paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-asset-statuses-GET/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6: Create a new asset",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    //pm.expect(responseBody.results && responseBody.results.length > 0).to.eql(true);",
+							"    pm.expect(responseBody.results).to.be.an(\"array\");",
+							"",
+							"    if(responseBody.results.length > 0) {",
+							"        pm.environment.set(\"asset_id\", responseBody.results[0].id);",
+							"    } else {",
+							"        //pm.expect(responseBody.results.length > 0).to.eql(true);",
+							"        postman.setNextRequest(\"|--- Step 6.1: Get assets\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function guid(format = 'xxxxxxxxxx') {",
+							"    var d = new Date().getTime()",
+							"",
+							"    var guid = format.replace(",
+							"      /[xy]/g,",
+							"      function (c) {",
+							"        var r = (d + Math.random() * 16) % 16 | 0",
+							"        d = Math.floor(d / 16)",
+							"        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16)",
+							"      })",
+							"",
+							"    return guid",
+							"  }",
+							"",
+							"pm.environment.set(\"asset_name\", \"Assets API Tutorial-\" + guid());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"clientAssetId\": \"{{asset_name}}\",\n    \"categoryId\": \"{{asset_category_id}}\",\n    \"statusId\": \"{{asset_status_id}}\"\n  }\n]"
+				},
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v2/projects/:projectId/assets:batch-create",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v2",
+						"projects",
+						":projectId",
+						"assets:batch-create"
+					],
+					"variable": [
+						{
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
+							"key": "projectId",
+							"type": "string",
+							"value": "{{assets_project_id}}"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch create Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-batch-create-POST-v2/"
+			},
+			"response": []
+		},
+		{
+			"name": "|--- Step 6.1: Get assets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody.results && responseBody.results.length > 0).to.eql(true);",
+							"",
+							"    if(responseBody.results.length > 0) {",
+							"        pm.environment.set(\"asset_id\", responseBody.results[0].id);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v2/projects/:projectId/assets?sort=createdAt DESC&includeCustomAttributes=true",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v2",
+						"projects",
+						":projectId",
+						"assets"
+					],
+					"query": [
+						{
+							"key": "cursorState",
+							"value": "eyJsaW1pdCI6MTAwLCJvZmZzZXQiOjEwMH0=",
+							"description": "Opaque cursor token for pagination. Should be left blank for the initial call. Subsequent calls should use the cursorState found in the previous response. To reinitiate pagination, omit cursorState.",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "100",
+							"description": "The maximum number of objects that can be returned. A query might return fewer than the value of limit due to filtering or other reasons.",
+							"disabled": true
+						},
+						{
+							"key": "filter[categoryId]",
+							"value": "5",
+							"description": "Filter to entities contained in the Category IDs provided",
+							"disabled": true
+						},
+						{
+							"key": "filter[statusLabel]",
+							"value": "Ordered",
+							"description": "Filter to entities with a status matching one of the provided Status labels",
+							"disabled": true
+						},
+						{
+							"key": "filter[statusId]",
+							"value": "b1b8a04a-46c6-434c-b1c5-bd6f4081db2f",
+							"description": "Filter to entities assigned to the Asset Status IDs provided by statusIds",
+							"disabled": true
+						},
+						{
+							"key": "filter[locationId]",
+							"value": null,
+							"description": "Filter to entities with a status matching one of the provided Status IDs",
+							"disabled": true
+						},
+						{
+							"key": "filter[customAttributes][ca1]",
+							"value": null,
+							"description": "Filter to entities that match the Custom Attribute values given. Each Custom Attribute filter should be keyed by the Custom Attribute’s name field",
+							"disabled": true
+						},
+						{
+							"key": "filter[searchText]",
+							"value": "MVS-3D",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "createdAt DESC",
+							"description": "Provide a valid API field name to sort by, with an optional direction (“asc” or “desc”). In the case of custom attributes, dot notation is used, e.g. “customAttributes.ca3 desc” Multiple comma-separated expressions may be provided for secondary sorts"
+						},
+						{
+							"key": "includeCustomAttributes",
+							"value": "true",
+							"description": "if true, the Assets in the response will include the “customAttributes” field"
+						},
+						{
+							"key": "includeDeleted",
+							"value": "true",
+							"description": "Indicates if soft-deleted objects should be included in the response. By default, soft-deleted objects are NOT returned.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "projectId",
+							"value": "{{assets_project_id}}",
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet all Assets paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-assets-GET/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 7: Create a custom attribute",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody).to.have.property(\"id\");",
+							"    pm.expect(responseBody).to.have.property(\"name\");",
+							"",
+							"    pm.environment.set(\"custom_attribute_id\", responseBody.id);",
+							"    pm.environment.set(\"custom_attribute_name\", responseBody.name);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function guid(format = 'xxxxxxxxxx') {",
+							"    var d = new Date().getTime()",
+							"",
+							"    var guid = format.replace(",
+							"      /[xy]/g,",
+							"      function (c) {",
+							"        var r = (d + Math.random() * 16) % 16 | 0",
+							"        d = Math.floor(d / 16)",
+							"        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16)",
+							"      })",
+							"",
+							"    return guid",
+							"  }",
+							"",
+							"pm.environment.set(\"custom_attribute_displayname\", \"Tutorial Text-\" + guid());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"displayName\": \"{{custom_attribute_displayname}}\",\n    \"description\": \"Custom attribute for Assets API Tutorial\",\n    \"requiredOnIngress\": false,\n    \"maxLengthOnIngress\": 250,\n    \"defaultValue\": null,\n    \"dataType\": \"text\"\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/custom-attributes",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v1",
+						"projects",
+						":projectId",
+						"custom-attributes"
+					],
+					"variable": [
+						{
+							"key": "projectId",
+							"value": "{{assets_project_id}}",
+							"type": "text",
+							"enabled": true,
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nCreate a new Asset Custom Attribute.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-custom-attributes-POST/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 8: Associate a custom attribute with a category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody.results && responseBody.results.length > 0).to.eql(true);",
+							"    pm.expect(responseBody.results[0]).to.have.property(\"id\")",
+							"                                            .that.to.eql(pm.environment.get(\"custom_attribute_id\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{Bearer}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/categories/:categoryId/custom-attributes/:customAttributeId",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v1",
+						"projects",
+						":projectId",
+						"categories",
+						":categoryId",
+						"custom-attributes",
+						":customAttributeId"
+					],
+					"query": [
+						{
+							"key": "cursorState",
+							"value": "",
+							"description": "Opaque cursor token for pagination. Should be left blank for the initial call. Subsequent calls should use the cursorState found in the previous response. To reinitiate pagination, omit cursorState.",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "100",
+							"description": "The maximum number of objects that can be returned. A query might return fewer than the value of limit due to filtering or other reasons.",
+							"disabled": true
+						},
+						{
+							"key": "includeInherited",
+							"value": "true",
+							"description": "if true, response will include inherited values within a tree structure",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "projectId",
+							"value": "{{assets_project_id}}",
+							"type": "text",
+							"enabled": true,
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
+						},
+						{
+							"key": "categoryId",
+							"value": "{{asset_category_id}}",
+							"type": "text",
+							"enabled": true,
+							"description": "Category ID"
+						},
+						{
+							"key": "customAttributeId",
+							"value": "{{custom_attribute_id}}",
+							"type": "text",
+							"enabled": true,
+							"description": "Asset Custom Attribute ID"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nAssign an Asset Custom Attribute to a Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-categories-category-id-custom-attributes-custom-attribute-id-PUT/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 9: Update a custom attribute value of a asset",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(Object.keys(responseBody)).to.have.lengthOf(1);",
+							"",
+							"    var assetId = pm.environment.get(\"asset_id\");",
+							"    pm.expect(responseBody).to.have.property(assetId); ",
+							"});",
+							"",
+							"pm.test(\"Update custom attribte value successfully\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    var assetId = pm.environment.get(\"asset_id\");",
+							"    var customAttributeName = pm.environment.get(\"custom_attribute_name\");",
+							"",
+							"    pm.expect(responseBody).to.have.property(assetId);",
+							"    /*pm.expect(responseBody[assetId]).to.have.property(\"customAttributes\");",
+							"    pm.expect(responseBody[assetId][\"customAttributes\"]).to.have.property(customAttributeName);",
+							"    pm.expect(responseBody[assetId][\"customAttributes\"][customAttributeName]).to.eql(\"Hello World!\");*/",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"{{asset_id}}\": {\n        \"customAttributes\": {\n            \"{{custom_attribute_name}}\": \"Hello World!\"\n        }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v2/projects/:projectId/assets:batch-patch",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v2",
+						"projects",
+						":projectId",
+						"assets:batch-patch"
+					],
+					"query": [
+						{
+							"key": "includeCustomAttributes",
+							"value": "true",
+							"description": "if true, the Assets in the response will include the “customAttributes” field",
+							"disabled": true
+						},
+						{
+							"key": "includeDeleted",
+							"value": "true",
+							"description": "The maximum number of objects that can be returned. A query might return fewer than the value of limit due to filtering or other reasons.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
+							"key": "projectId",
+							"type": "string",
+							"value": "{{assets_project_id}}"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch patch Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-batch-patch-PATCH-v2/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 10: Get the project and setup issues container id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+							"",
+							"// setup the environment variable \"issues_container_id\"",
+							"var responseBody = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"issues_container_id\", responseBody.data.relationships.issues.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_domain}}/project/v1/hubs/{{hub_id}}/projects/{{project_id}}",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"project",
+						"v1",
+						"hubs",
+						"{{hub_id}}",
+						"projects",
+						"{{project_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 11: Find issue types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody.results && responseBody.results.length > 0).to.eql(true);",
+							"",
+							"    for ( var index in responseBody.results) {",
+							"        if(responseBody.results[index].title == \"Commissioning\"){",
+							"            postman.setEnvironmentVariable(\"issue_type\", responseBody.results[index].id);",
+							"            postman.setEnvironmentVariable(\"issue_subtype\", responseBody.results[index].subtypes[0].id);",
+							"            break;",
+							"        }",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/issues/v1/containers/:container_id/ng-issue-types?include=subtypes",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"issues",
+						"v1",
+						"containers",
+						":container_id",
+						"ng-issue-types"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": "subtypes",
+							"description": "Include issue subtypes in the response. For example, work to complete and pre-punch list. Possible value: subtypes. For example, include=subtypes."
+						}
+					],
+					"variable": [
+						{
+							"key": "container_id",
+							"value": "{{issues_container_id}}",
+							"description": "Each project is assigned a container that stores all the issues for the project. To find the ID, see the Retrieve a Container ID tutorial."
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet all Assets Statuses paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-asset-statuses-GET/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 12: Create an issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/vnd.api+json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/vnd.api+json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody).to.have.property(\"data\")",
+							"                                .that.have.property(\"id\");",
+							"",
+							"    pm.environment.set(\"issue_id\", responseBody.data.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function guid(format = 'xxxxxxxxxx') {",
+							"    var d = new Date().getTime()",
+							"",
+							"    var guid = format.replace(",
+							"      /[xy]/g,",
+							"      function (c) {",
+							"        var r = (d + Math.random() * 16) % 16 | 0",
+							"        d = Math.floor(d / 16)",
+							"        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16)",
+							"      })",
+							"",
+							"    return guid",
+							"  }",
+							"",
+							"pm.environment.set(\"issue_title\", \"Assets API Tutorial Issue-\" + guid());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n      \"type\": \"quality_issues\",\n      \"attributes\": {\n        \"title\": \"{{issue_title}}\",\n        \"description\": \"Demo issue for Asset API tutorial\",\n        \"status\": \"open\",\n        \"ng_issue_subtype_id\": \"{{issue_subtype}}\",\n        \"ng_issue_type_id\": \"{{issue_type}}\",\n        \"starting_version\": \"1\"\n      }\n    }\n  }"
+				},
+				"url": {
+					"raw": "{{base_domain}}/issues/v1/containers/:container_id/quality-issues",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"issues",
+						"v1",
+						"containers",
+						":container_id",
+						"quality-issues"
+					],
+					"variable": [
+						{
+							"key": "container_id",
+							"value": "{{issues_container_id}}",
+							"description": "Each project is assigned a container that stores all the issues for the project. To find the ID, see the Retrieve a Container ID tutorial."
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nCreate a new Asset Custom Attribute.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-custom-attributes-POST/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 13: Associate an issue with an asset",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody && responseBody.length > 0).to.eql(true);",
+							"    pm.expect(responseBody[0]).to.have.property(\"id\");",
+							"",
+							"    pm.environment.set(\"asset_issue_relationship_id\", responseBody[0].id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"entities\": [\n        {\n            \"id\": \"{{issue_id}}\",\n            \"type\": \"issue\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/assets/:assetId/relationships",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v1",
+						"projects",
+						":projectId",
+						"assets",
+						":assetId",
+						"relationships"
+					],
+					"variable": [
+						{
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
+							"enabled": true,
+							"key": "projectId",
+							"type": "text",
+							"value": "{{assets_project_id}}"
+						},
+						{
+							"key": "assetId",
+							"value": "{{asset_id}}",
+							"description": "The system generated Asset ID"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nAdd relationships between an Asset and target entities.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-asset-id-relationships-POST/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 14: Get the project and setup checklists container id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+							"",
+							"// setup the environment variable \"checklists_container_id\"",
+							"var responseBody = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"checklists_container_id\", responseBody.data.relationships.checklists.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_domain}}/project/v1/hubs/{{hub_id}}/projects/{{project_id}}",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"project",
+						"v1",
+						"hubs",
+						"{{hub_id}}",
+						"projects",
+						"{{project_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 15: Find checklist templates",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/vnd.api+json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/vnd.api+json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody.data && responseBody.data.length > 0).to.eql(true);",
+							"",
+							"    postman.setEnvironmentVariable(\"checklist_template_id\", responseBody.data[0].id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}/bim360/checklists/v1/containers/:containerId/templates",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"checklists",
+						"v1",
+						"containers",
+						":containerId",
+						"templates"
+					],
+					"variable": [
+						{
+							"description": "Each project is assigned a container that stores all the checklists for the project. To find the ID, see the Retrieve a Container ID tutorial.",
+							"key": "containerId",
+							"value": "{{checklists_container_id}}"
+						}
+					]
+				},
+				"description": "Retrieves information about all the BIM 360 Field Management templates in a project, including details about the items, sections, and attachments in the template. To get information about a single template, see GET templates/:id.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/checklists-templates-GET/"
+			},
+			"response": []
+		},
+		{
+			"name": "Step 16: Associate checklist template with a category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header present and is application/json\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", () => {",
+							"    var responseBody = pm.response.json();",
+							"    pm.expect(responseBody && responseBody.length > 0).to.eql(true);",
+							"    pm.expect(responseBody[0]).to.have.property(\"id\");",
+							"",
+							"    pm.environment.set(\"asset_category_checklist_template_relationship_id\", responseBody[0].id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"entities\": [\n        {\n            \"id\": \"{{checklist_template_id}}\",\n            \"type\": \"checklisttemplate\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/categories/:categoryId/relationships",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"bim360",
+						"assets",
+						"v1",
+						"projects",
+						":projectId",
+						"categories",
+						":categoryId",
+						"relationships"
+					],
+					"variable": [
+						{
+							"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
+							"enabled": true,
+							"key": "projectId",
+							"type": "text",
+							"value": "{{assets_project_id}}"
+						},
+						{
+							"key": "categoryId",
+							"value": "{{asset_category_id}}",
+							"description": "Category ID"
+						}
+					]
+				},
+				"description": "**Private Beta, you have to use it at your own risk** <br/>\nAdd relationships between a Category and target entities.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-categories-category-id-relationships-POST/"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "scope",
+				"value": "data:write data:create data:read",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "https://www.postman.com/oauth2/callback",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "{{base_domain}}/authentication/v1/gettoken",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "{{base_domain}}/authentication/v1/authorize",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "body",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "3LO Access Token",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{client_secret}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{client_id}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
