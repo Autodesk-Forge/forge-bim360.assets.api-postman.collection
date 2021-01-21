@@ -1157,10 +1157,18 @@
 									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
 									"});",
 									"",
-									"pm.test(\"Response body is not empty\", () => {",
+									"pm.test(\"Response body is not empty and task is succeed\", () => {",
 									"    var responseBody = pm.response.json();",
 									"    pm.expect(responseBody.results && responseBody.results.length > 0).to.eql(true);",
-									"    pm.expect(responseBody.results[0]).to.have.property(\"id\");",
+									"    var customAttribute = null;",
+									"    var customAttributeId = pm.environment.get(\"custom_attribute_id\");",
+									"    for ( var index in responseBody.results) {",
+									"        if(responseBody.results[index].id == customAttributeId){",
+									"            customAttribute = responseBody.results[index];",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(customAttribute).to.not.be.null;",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1750,9 +1758,13 @@
 									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
 									"});",
 									"",
-									"pm.test(\"Response body is not empty\", () => {",
+									"pm.test(\"Response body is not empty and task is succeed\", () => {",
 									"    var responseBody = pm.response.json();",
 									"    pm.expect(responseBody).to.have.property(\"id\");",
+									"    pm.expect(responseBody).to.have.property(\"categoryId\")",
+									"                                .that.to.eql(pm.environment.get(\"asset_category_id\"));",
+									"    pm.expect(responseBody).to.have.property(\"statusStepSetId\")",
+									"                                .that.to.eql(pm.environment.get(\"asset_status_step_set_id\"));",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2028,6 +2040,26 @@
 		"type": "oauth2",
 		"oauth2": [
 			{
+				"key": "accessTokenUrl",
+				"value": "{{base_domain}}authentication/v1/gettoken",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "{{base_domain}}authentication/v1/authorize",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "authorization_code",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "3LO Access Token",
+				"type": "string"
+			},
+			{
 				"key": "scope",
 				"value": "data:read data:write data:create",
 				"type": "string"
@@ -2043,23 +2075,8 @@
 				"type": "string"
 			},
 			{
-				"key": "tokenName",
-				"value": "3LO Access Token",
-				"type": "string"
-			},
-			{
 				"key": "client_authentication",
 				"value": "body",
-				"type": "string"
-			},
-			{
-				"key": "accessTokenUrl",
-				"value": "{{base_domain}}/authentication/v1/gettoken",
-				"type": "string"
-			},
-			{
-				"key": "authUrl",
-				"value": "{{base_domain}}/authentication/v1/authorize",
 				"type": "string"
 			},
 			{
