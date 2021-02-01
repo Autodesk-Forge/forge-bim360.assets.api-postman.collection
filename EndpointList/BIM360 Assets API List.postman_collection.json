@@ -64,7 +64,8 @@
 									"value": "hubs:autodesk.bim360:Account"
 								}
 							]
-						}
+						},
+						"description": "Returns a collection of accessible hubs for this member.<br/>\nhttps://forge.autodesk.com/en/docs/data/v2/reference/http/hubs-GET/"
 					},
 					"response": []
 				},
@@ -119,7 +120,8 @@
 								"{{hub_id}}",
 								"projects"
 							]
-						}
+						},
+						"description": "Returns a collection of projects for a given hub_id. A project represents a BIM 360 Team project, a Fusion Team project, a BIM 360 Docs project, or an A360 Personal project. Multiple projects can be created within a single hub.<br/>\nhttps://forge.autodesk.com/en/docs/data/v2/reference/http/hubs-hub_id-projects-GET/"
 					},
 					"response": []
 				}
@@ -254,6 +256,12 @@
 									"value": "true",
 									"description": "Indicates if soft-deleted objects should be included in the response. By default, soft-deleted objects are NOT returned.",
 									"disabled": true
+								},
+								{
+									"key": "includeSubLocations",
+									"value": null,
+									"description": "Include Assets belonging to all sub-locations in the Locations hierarchy. Must be combined with a single value for filter[locationId].",
+									"disabled": true
 								}
 							],
 							"variable": [
@@ -264,7 +272,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet all Assets paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-assets-GET/"
+						"description": "Get all Assets paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-GET/"
 					},
 					"response": []
 				},
@@ -337,7 +345,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch fetch Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-assets-batch-get-POST/"
+						"description": "Batch fetch Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-batch-get-POST/"
 					},
 					"response": []
 				},
@@ -405,7 +413,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch create Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-batch-create-POST-v2/"
+						"description": "Batch create Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-batch-create-POST-v2/"
 					},
 					"response": []
 				},
@@ -483,7 +491,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch patch Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-batch-patch-PATCH-v2/"
+						"description": "Batch patch Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-batch-patch-PATCH-v2/"
 					},
 					"response": []
 				},
@@ -537,7 +545,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch delete Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-batch-delete-v2-POST/"
+						"description": "Batch delete Assets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-batch-delete-v2-POST/"
 					},
 					"response": []
 				}
@@ -638,6 +646,12 @@
 									"value": "",
 									"description": "Filter categories to a maximum depth. Depth 0 means to only return the ROOT category.",
 									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "2021-01-05T19:55:59.603Z",
+									"description": "Retrieves items that were updated at the specified date and time, in the following format: YYYY-MM-DDThh:mm:ss.SSSZ, or a date and time range in the following format: YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ. Range queries can be closed or open in either direction (i.e. YYYY-MM-DDThh:mm:ss.SSSZ.. or ..YYYY-MM-DDThh:mm:ss.SSSZ).",
+									"disabled": true
 								}
 							],
 							"variable": [
@@ -648,7 +662,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet all Categories paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-categories-GET/"
+						"description": "Get all Categories paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-categories-GET/"
 					},
 					"response": []
 				},
@@ -707,7 +721,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch fetch Categories.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-categories-batch-get-POST/"
+						"description": "Batch fetch Categories.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-categories-batch-get-POST/"
 					},
 					"response": []
 				},
@@ -772,7 +786,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nCreate a new Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-categories-POST/"
+						"description": "Create a new Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-categories-POST/"
 					},
 					"response": []
 				}
@@ -841,6 +855,12 @@
 									"value": "true",
 									"description": "Indicates if soft-deleted objects should be included in the response. By default, soft-deleted objects are NOT returned.",
 									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "2020-05-01T06:00:00Z",
+									"description": "Retrieves items that were updated at the specified date and time, in the following format: YYYY-MM-DDThh:mm:ss.SSSZ, or a date and time range in the following format: YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ. Range queries can be closed or open in either direction (i.e. YYYY-MM-DDThh:mm:ss.SSSZ.. or ..YYYY-MM-DDThh:mm:ss.SSSZ).",
+									"disabled": true
 								}
 							],
 							"variable": [
@@ -852,7 +872,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet the pool of all Custom Attributes with pagination.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-custom-attributes-GET/"
+						"description": "Get the pool of all Custom Attributes with pagination.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-custom-attributes-GET/"
 					},
 					"response": []
 				},
@@ -917,7 +937,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch fetch Custom Attributes.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-custom-attributes-batch-get-POST/"
+						"description": "Batch fetch Custom Attributes.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-custom-attributes-batch-get-POST/"
 					},
 					"response": []
 				},
@@ -982,7 +1002,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nCreate a new Asset Custom Attribute.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-custom-attributes-POST/"
+						"description": "Create a new Asset Custom Attribute.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-custom-attributes-POST/"
 					},
 					"response": []
 				},
@@ -1054,7 +1074,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nUpdate an Asset Custom Attribute.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-custom-attributes-custom-attribute-id-PATCH/"
+						"description": "Update an Asset Custom Attribute.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-custom-attributes-custom-attribute-id-PATCH/"
 					},
 					"response": []
 				},
@@ -1118,6 +1138,12 @@
 									"key": "includeInherited",
 									"value": "true",
 									"description": "if true, response will include inherited values within a tree structure"
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "2020-05-01T06:00:00Z",
+									"description": "Retrieves items that were updated at the specified date and time, in the following format: YYYY-MM-DDThh:mm:ss.SSSZ, or a date and time range in the following format: YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ. Range queries can be closed or open in either direction (i.e. YYYY-MM-DDThh:mm:ss.SSSZ.. or ..YYYY-MM-DDThh:mm:ss.SSSZ).",
+									"disabled": true
 								}
 							],
 							"variable": [
@@ -1137,7 +1163,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet the Asset Custom Attributes that are assigned to a Category. If the includeInherited query param is set to true, then return the Asset Custom Attributes that are available for the Category with inheritance.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-categories-category-id-custom-attributes-GET/"
+						"description": "Get the Asset Custom Attributes that are assigned to a Category. If the includeInherited query param is set to true, then return the Asset Custom Attributes that are available for the Category with inheritance.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-categories-category-id-custom-attributes-GET/"
 					},
 					"response": []
 				},
@@ -1247,7 +1273,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nAssign an Asset Custom Attribute to a Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-categories-category-id-custom-attributes-custom-attribute-id-PUT/"
+						"description": "Assign an Asset Custom Attribute to a Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-categories-category-id-custom-attributes-custom-attribute-id-PUT/"
 					},
 					"response": []
 				}
@@ -1316,6 +1342,12 @@
 									"value": "true",
 									"description": "Indicates if soft-deleted objects should be included in the response. By default, soft-deleted objects are NOT returned.",
 									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "2020-05-01T06:00:00Z",
+									"description": "Retrieves items that were updated at the specified date and time, in the following format: YYYY-MM-DDThh:mm:ss.SSSZ, or a date and time range in the following format: YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ. Range queries can be closed or open in either direction (i.e. YYYY-MM-DDThh:mm:ss.SSSZ.. or ..YYYY-MM-DDThh:mm:ss.SSSZ).",
+									"disabled": true
 								}
 							],
 							"variable": [
@@ -1327,7 +1359,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet all Assets Statuses paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-asset-statuses-GET/"
+						"description": "Get all Assets Statuses paginated.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-asset-statuses-GET/"
 					},
 					"response": []
 				},
@@ -1394,7 +1426,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch fetch Asset Statuses.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-asset-statuses-batch-get-POST/"
+						"description": "Batch fetch Asset Statuses.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-asset-statuses-batch-get-POST/"
 					},
 					"response": []
 				},
@@ -1459,7 +1491,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nCreate an Asset Status.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-asset-statuses-POST/"
+						"description": "Create an Asset Status.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-asset-statuses-POST/"
 					},
 					"response": []
 				}
@@ -1528,6 +1560,12 @@
 									"value": "true",
 									"description": "Indicates if soft-deleted objects should be included in the response. By default, soft-deleted objects are NOT returned.",
 									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "2020-05-01T06:00:00Z",
+									"description": "Retrieves items that were updated at the specified date and time, in the following format: YYYY-MM-DDThh:mm:ss.SSSZ, or a date and time range in the following format: YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ. Range queries can be closed or open in either direction (i.e. YYYY-MM-DDThh:mm:ss.SSSZ.. or ..YYYY-MM-DDThh:mm:ss.SSSZ).",
+									"disabled": true
 								}
 							],
 							"variable": [
@@ -1539,7 +1577,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nGet a Project’s Status Step Sets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-status-step-sets-GET/"
+						"description": "Get a Project’s Status Step Sets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-status-step-sets-GET/"
 					},
 					"response": []
 				},
@@ -1606,7 +1644,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch fetch Status Sets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-status-step-sets-batch-get-POST/"
+						"description": "Batch fetch Status Sets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-status-step-sets-batch-get-POST/"
 					},
 					"response": []
 				},
@@ -1671,7 +1709,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nCreate a new Status Set.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-status-step-sets-POST/"
+						"description": "Create a new Status Set.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-status-step-sets-POST/"
 					},
 					"response": []
 				},
@@ -1738,7 +1776,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nBatch fetch Status Sets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-status-step-sets-batch-get-POST/"
+						"description": "Batch fetch Status Sets.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-status-step-sets-batch-get-POST/"
 					},
 					"response": []
 				},
@@ -1817,7 +1855,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nAssign a Status Set to a Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360-private/v1/reference/http/assets-categories-category-id-status-step-set-status-step-set-id-PUT/"
+						"description": "Assign a Status Set to a Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-categories-category-id-status-step-set-status-step-set-id-PUT/"
 					},
 					"response": []
 				}
@@ -1896,7 +1934,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nAdd relationships between an Asset and target entities.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-asset-id-relationships-POST/"
+						"description": "Add relationships between an Asset and target entities.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-assets-asset-id-relationships-POST/"
 					},
 					"response": []
 				},
@@ -1970,7 +2008,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nAdd relationships between a Category and target entities.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-categories-category-id-relationships-POST/"
+						"description": "Add relationships between a Category and target entities.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-categories-category-id-relationships-POST/"
 					},
 					"response": []
 				},
@@ -2029,7 +2067,7 @@
 								}
 							]
 						},
-						"description": "**Private Beta, you have to use it at your own risk** <br/>\nDelete relationships for a list of IDs. The user must have entitlements for the given project that allows them to delete the corresponding Asset or Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-relationships-delete-POST/"
+						"description": "Delete relationships for a list of IDs. The user must have entitlements for the given project that allows them to delete the corresponding Asset or Category.<br/>\nhttps://forge.autodesk.com/en/docs/bim360/v1/reference/http/assets-relationships-delete-POST/"
 					},
 					"response": []
 				}
