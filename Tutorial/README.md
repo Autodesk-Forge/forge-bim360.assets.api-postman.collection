@@ -105,7 +105,10 @@ This folder contains a Postman Collection that contains the requests cover the c
 - Run Postman **Collection Runner**, select the collection, check&uncheck items like the below snapshot, select the environment, set **Delay** to 1000ms
 - Click **Run BIM360 Assets...** button to start, you will see the result of the workflow.
 
-![bim360 workflow automation test settings](Img/automationtest-settings.png)
+  - Run order settings for **Setup BIM 360 Assets Settings**
+    ![bim360 workflow automation test settings for Setup BIM 360 Assets Settings](Img/automationtest-settings.png)
+  - Run order settings for **Create BIM 360 Assets Data**
+    ![bim360 workflow automation test settings for Create BIM 360 Assets Data](Img/automationtest-settings-2.png)
 
 **Note:** The collection will first create an asset category, then create an asset and assign the asset to the category, after that, create a custom attribute, and then attach the custom attribute to the category, and assign a value of the custom attribute to that asset.
 
