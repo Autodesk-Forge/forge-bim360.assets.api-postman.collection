@@ -1466,7 +1466,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"label\": \"Functional-Testing\",\n    \"description\": \"Custom Functional Testing Status\",\n    \"color\": \"green\",\n    \"statusStepSetId\": \"\"\n}"
+							"raw": "{\n    \"label\": \"Expired\",\n    \"description\": \"Electrical asset is expired that needs a replacement\",\n    \"color\": \"gray\",\n    \"statusStepSetId\": \"{{asset_status_step_set_id}}\"\n}"
 						},
 						"url": {
 							"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/asset-statuses",
@@ -1902,7 +1902,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"entities\": [\n        {\n            \"id\": \"\",\n            \"type\": \"issue\"\n        }\n    ]\n}"
+							"raw": "{\n    \"entities\": [\n        {\n            \"id\": \"b70c9490-320f-4411-a2de-dd816d808557\",\n            \"type\": \"issue\"\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/assets/:assetId/relationships",
@@ -1976,7 +1976,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"entities\": [\n        {\n            \"id\": \"\",\n            \"type\": \"checklisttemplate\"\n        }\n    ]\n}"
+							"raw": "{\n    \"entities\": [\n        {\n            \"id\": \"194887\",\n            \"type\": \"checklisttemplate\"\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/categories/:categoryId/relationships",
@@ -2042,7 +2042,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"relationshipIds\": [\n        \"\"\n    ]\n}"
+							"raw": "{\n    \"relationshipIds\": [\n        \"a3b6e18f-ba7f-49d9-a13a-c0f5d212221a\"\n    ]\n}"
 						},
 						"url": {
 							"raw": "{{base_domain}}/bim360/assets/v1/projects/:projectId/relationships:delete",
