@@ -268,6 +268,7 @@
 								{
 									"key": "projectId",
 									"value": "{{assets_project_id}}",
+									"type": "string",
 									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
@@ -406,10 +407,10 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
 									"key": "projectId",
+									"value": "{{assets_project_id}}",
 									"type": "string",
-									"value": "{{assets_project_id}}"
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
 						},
@@ -484,10 +485,10 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
 									"key": "projectId",
+									"value": "{{assets_project_id}}",
 									"type": "string",
-									"value": "{{assets_project_id}}"
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
 						},
@@ -538,10 +539,10 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
 									"key": "projectId",
+									"value": "{{assets_project_id}}",
 									"type": "string",
-									"value": "{{assets_project_id}}"
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
 						},
@@ -658,6 +659,7 @@
 								{
 									"key": "projectId",
 									"value": "{{assets_project_id}}",
+									"type": "string",
 									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
@@ -715,8 +717,7 @@
 								{
 									"key": "projectId",
 									"value": "{{assets_project_id}}",
-									"type": "text",
-									"enabled": true,
+									"type": "string",
 									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
@@ -778,11 +779,10 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
 						},
@@ -933,6 +933,7 @@
 								{
 									"key": "projectId",
 									"value": "{{assets_project_id}}",
+									"type": "string",
 									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
@@ -996,8 +997,7 @@
 								{
 									"key": "projectId",
 									"value": "{{assets_project_id}}",
-									"type": "text",
-									"enabled": true,
+									"type": "string",
 									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
@@ -1059,18 +1059,16 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								},
 								{
-									"description": "Asset Custom Attribute ID",
-									"enabled": true,
 									"key": "customAttributeId",
-									"type": "text",
-									"value": "{{custom_attribute_id}}"
+									"value": "{{custom_attribute_id}}",
+									"type": "string",
+									"description": "Asset Custom Attribute ID"
 								}
 							]
 						},
@@ -1150,15 +1148,13 @@
 								{
 									"key": "projectId",
 									"value": "{{assets_project_id}}",
-									"type": "text",
-									"enabled": true,
+									"type": "string",
 									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								},
 								{
 									"key": "categoryId",
 									"value": "{{asset_category_id}}",
-									"type": "text",
-									"enabled": true,
+									"type": "string",
 									"description": "Category ID"
 								}
 							]
@@ -1253,22 +1249,19 @@
 								{
 									"key": "projectId",
 									"value": "{{assets_project_id}}",
-									"type": "text",
-									"enabled": true,
+									"type": "string",
 									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								},
 								{
 									"key": "categoryId",
 									"value": "{{asset_category_id}}",
-									"type": "text",
-									"enabled": true,
+									"type": "string",
 									"description": "Category ID"
 								},
 								{
 									"key": "customAttributeId",
 									"value": "{{custom_attribute_id}}",
-									"type": "text",
-									"enabled": true,
+									"type": "string",
 									"description": "Asset Custom Attribute ID"
 								}
 							]
@@ -1420,8 +1413,7 @@
 								{
 									"key": "projectId",
 									"value": "{{assets_project_id}}",
-									"type": "text",
-									"enabled": true,
+									"type": "string",
 									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
@@ -1483,11 +1475,10 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
 						},
@@ -1636,11 +1627,10 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
 						},
@@ -1701,11 +1691,10 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
 						},
@@ -1768,11 +1757,10 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
 						},
@@ -1835,22 +1823,21 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								},
 								{
-									"description": "Category ID",
-									"enabled": true,
 									"key": "categoryId",
-									"type": "text",
-									"value": "{{asset_category_id}}"
+									"value": "{{asset_category_id}}",
+									"type": "string",
+									"description": "Category ID"
 								},
 								{
 									"key": "statusStepSetId\n",
 									"value": "{{asset_status_step_set_id}}",
+									"type": "string",
 									"description": "The Status Set ID"
 								}
 							]
@@ -1921,15 +1908,15 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								},
 								{
 									"key": "assetId",
 									"value": "{{asset_id}}",
+									"type": "string",
 									"description": "The system generated Asset ID"
 								}
 							]
@@ -1995,15 +1982,15 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								},
 								{
 									"key": "categoryId",
 									"value": "{{asset_category_id}}",
+									"type": "string",
 									"description": "Category ID"
 								}
 							]
@@ -2059,11 +2046,10 @@
 							],
 							"variable": [
 								{
-									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”",
-									"enabled": true,
 									"key": "projectId",
-									"type": "text",
-									"value": "{{assets_project_id}}"
+									"value": "{{assets_project_id}}",
+									"type": "string",
+									"description": "BIM 360 project ID. Must be a UUID or a Project ID of the form “b.{UUID}”"
 								}
 							]
 						},
@@ -2077,6 +2063,11 @@
 	"auth": {
 		"type": "oauth2",
 		"oauth2": [
+			{
+				"key": "scope",
+				"value": "data:read data:write data:create",
+				"type": "string"
+			},
 			{
 				"key": "accessTokenUrl",
 				"value": "{{base_domain}}authentication/v1/gettoken",
@@ -2095,11 +2086,6 @@
 			{
 				"key": "tokenName",
 				"value": "3LO Access Token",
-				"type": "string"
-			},
-			{
-				"key": "scope",
-				"value": "data:read data:write data:create",
 				"type": "string"
 			},
 			{
