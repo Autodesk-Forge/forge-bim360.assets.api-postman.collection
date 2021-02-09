@@ -10,12 +10,14 @@
 ![Beginner](https://img.shields.io/badge/Level-Beginner-green.svg)
 [![License](https://img.shields.io/:license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
-This folder contains a Postman Collection that contains the requests cover the current main workflow of BIM360 Assets. The collection together with the environment shows you how to use Assets API. It includes [Retrieve BIM 360 Account and Project ID](#asset-tutorial-1), [Setup BIM 360 Assets Settings](#asset-tutorial-2), [Create BIM 360 Assets Data](#asset-tutorial-3), and [Retrieve BIM 360 Assets Data](#asset-tutorial-4).
+This folder contains a Postman Collection that includes the requests covering the current main workflow of BIM360 Assets. The collection together with the environment shows you how to use Assets API. It includes [Retrieve BIM 360 Account and Project ID](#asset-tutorial-1), [Setup BIM 360 Assets Settings](#asset-tutorial-2), [Create BIM 360 Assets Data](#asset-tutorial-3), and [Retrieve BIM 360 Assets Data](#asset-tutorial-4).
 
 ![Collection](Img/collection.png)
 
 ## Demonstration
-[![https://youtu.be/ETzzFfHHyVA](http://img.youtube.com/vi/ETzzFfHHyVA/0.jpg)](https://youtu.be/ETzzFfHHyVA "BIM 360 Assets tutorial")
+[![https://youtu.be/2u3kSjm-XEo](http://img.youtube.com/vi/2u3kSjm-XEo/0.jpg)](https://youtu.be/2u3kSjm-XEo "BIM 360 Assets tutorial")
+
+[Click here or click on the above picture to view the video](https://youtu.be/2u3kSjm-XEo)
 
 ## Preparation before you begin:
 - [Create Forge App, get access to a BIM 360 Account](https://forge.autodesk.com/en/docs/bim360/v1/tutorials/getting-started/get-access-to-account/)
@@ -23,7 +25,7 @@ This folder contains a Postman Collection that contains the requests cover the c
 
 ## Instructions to run the Postman tutorial are as below:
 
-**Please watch the [Video](https://youtu.be/ETzzFfHHyVA) for the detail workflow, or follow the steps:**
+**Please watch the [Video](https://youtu.be/2u3kSjm-XEo) for the detail workflow, or follow the steps:**
 
 ### Setup Postman environment and Authorization:
 - Import Postman environment & collection, please setup the following environment vialables, 
@@ -92,7 +94,7 @@ This folder contains a Postman Collection that contains the requests cover the c
 
 ![bim360 workflow automation test](Img/automationtest.png)
 
-**Please watch the [Video](https://youtu.be/gPBiAl8xE-U) for the detail workflow, or follow the steps:**
+**Please watch the [Video](https://youtu.be/uxKom3KVgpU) for the detail workflow, or follow the steps:**
 
 ### Tutorials about workflow
 
