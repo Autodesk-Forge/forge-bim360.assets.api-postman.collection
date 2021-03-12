@@ -61,19 +61,26 @@ This folder contains a Postman Collection that includes the requests covering th
     - Step 6.2: Get all available checklist templates, save  **checklist_template_id** of the first checklist template for associating it with the assets. (Checklists API)
     - Step 6.3: Associate the checklist template of Step 13 with the category created in Step 4. (Assets API)
 
-- **Create BIM 360 Assets Data**<a id="asset-tutorial-3"></a>:  It contains a set of Postman scripts demonstrating how to create Asset data, work with Issue API to crate an issue, and assign the issue to an asset.
+- **Managing BIM 360 Assets Data**<a id="asset-tutorial-3"></a>:  It contains a set of Postman scripts demonstrating how to create Asset data, work with Issue API to crate an issue, and assign the issue to an asset.
 
-  - Step 1: Get all available asset categories, save  **asset_category_id** of the last one for creating new assets. (Assets API)
-  - Step 2: Get asset status sets assigned to category ids, save  **asset_status_set_id** of the first one for obtaining asset statuses. (Assets API)
-  - Step 3: Get asset statuses under given status set ids, save  **asset_status_id** of the first value of first status set for creating new assets. (Assets API)
-  - Step 4: Create a new asset with the value of the **asset_name** specified in the **Pre-request Script**. Save **asset_id** for the asset you just created. (Assets API)
-  - Step 5: Assign Issues to Assets
+  - Step 1: Create new Assets
+    - Step 1.1: Get all available asset categories, save  **asset_category_id** of the last one for creating new assets. (Assets API)
+    - Step 1.2: Get asset status sets assigned to category ids, save  **asset_status_set_id** of the first one for obtaining asset statuses. (Assets API)
+    - Step 1.3: Get asset statuses under given status set ids, save  **asset_status_id** of the first value of first status set for creating new assets. (Assets API)
+    - Step 1.4: Create a new asset with the value of the **asset_name** specified in the **Pre-request Script**. Save **asset_id** for the asset you just created. (Assets API)
+  - Step 2: Update Existing Assets
+    - Step 2.1: Get all available custom attributes assign to the category, find a text-typed custom attribute, and save **custom_attribute_id** and **custom_attribute_name** for updating custom attributes' value. (Assets API)
+    - Step 2.2: Update custom attribute value to `Hello World!` (Assets API)
+  - Step 3: Fetch Existing Assets of the specified BIM360 project (Assets API)
+  - Step 4: Assign Issues to Assets
     - Step 5.1: Get the information of the specified BIM360 project, and save **issues_container_id** for the Issues Container. (Data Management API)
     - Step 5.2: Get all available issue types and subtypes, save  **issue_type** of the first issue type and its first subtype as **issue_subtype** for creating new issues. (Issues API)
     - Step 5.3: Create a new issue with the value of the **issue_title** specified in the **Pre-request Script**. Save **issue_id** for the asset you just created. (Issues API)
     - Step 5.4: Associate the issue of Step 4.3 with the asset created in Step 3. (Assets API)
-  - Step 6: Get all available custom attributes assign to the category, find a text-typed custom attribute, and save **custom_attribute_id** and **custom_attribute_name** for updating custom attributes' value.
-  - Step 7: Update custom attribute value to `Hello World!`
+  - Step 5: Delete Asset Relationships
+    - Step 5.1: Get relationship of the asset created in Step 3, save relationship ids to **asset_relationship_id_array**. (Assets API)
+    - Step 5.2: Dissociate relationships of the asset created in Step 3. (Assets API)
+  - Step 6: Delete (deactivate) the asset created in Step 3. (Assets API)
 
 - **Retrieve BIM 360 Assets Data**<a id="asset-tutorial-4"></a>: It contains a set of Postman scripts demonstrating how to fetch your complete set of BIM 360 Asset data and metadata. This collection can be for the entirety of your Asset data or filtered to a subset of Asset data.
 
@@ -86,7 +93,7 @@ This folder contains a Postman Collection that includes the requests covering th
   - Step 5: Fetch all available Asset Custom Attributes in your project. (Assets API)
   - Step 6: Fetch all available Custom Attributes assign to the given id of the category. (Assets API)
   - Step 7: Fetch Locations (Not available yet since Locations API hasn't been released)
-  - Step 8: Fetch  all available relationship data of the Assets data in your project (Relationships API)
+  - Step 8: Fetch all available relationship data of the Assets data in your project (Relationships API)
 
 ## Further Reading
 ### Automate Workflow with Postman Collection Runner

@@ -1664,10 +1664,10 @@
 					]
 				},
 				{
-					"name": "Step 5: Create Asset Relationships",
+					"name": "Step 4: Create Asset Relationships",
 					"item": [
 						{
-							"name": "Step 5.1: Get the project and setup issues container id",
+							"name": "Step 4.1: Get the project and setup issues container id",
 							"event": [
 								{
 									"listen": "test",
@@ -1705,7 +1705,7 @@
 							"response": []
 						},
 						{
-							"name": "Step 5.2: Fetch Issue Types",
+							"name": "Step 4.2: Fetch Issue Types",
 							"event": [
 								{
 									"listen": "test",
@@ -1779,7 +1779,7 @@
 							"response": []
 						},
 						{
-							"name": "Step 5.3: Create a new Issue",
+							"name": "Step 4.3: Create a new Issue",
 							"event": [
 								{
 									"listen": "test",
@@ -1867,7 +1867,7 @@
 							"response": []
 						},
 						{
-							"name": "Step 5.4: Assign an issue with an asset",
+							"name": "Step 4.4: Assign an issue with an asset",
 							"event": [
 								{
 									"listen": "test",
@@ -1943,10 +1943,10 @@
 					]
 				},
 				{
-					"name": "Step 6: Delete Asset Relationships",
+					"name": "Step 5: Delete Asset Relationships",
 					"item": [
 						{
-							"name": "Step 6.1: Get relationship of an asset",
+							"name": "Step 5.1: Get relationship of an asset",
 							"event": [
 								{
 									"listen": "test",
@@ -2083,7 +2083,7 @@
 							"response": []
 						},
 						{
-							"name": "Step 6.2: Dissociate relationhips of an asset",
+							"name": "Step 5.2: Dissociate relationships of an asset",
 							"event": [
 								{
 									"listen": "test",
@@ -2223,7 +2223,7 @@
 					"response": []
 				},
 				{
-					"name": "Step 4: Delete Assets",
+					"name": "Step 6: Delete Assets",
 					"event": [
 						{
 							"listen": "test",
