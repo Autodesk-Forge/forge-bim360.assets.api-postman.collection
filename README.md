@@ -1,3 +1,6 @@
+# DEPRECATED
+This repository has been deprecated and migrated to https://github.com/autodesk-platform-services/aps-assets.api-postman.collection
+
 # BIM360 Assets API Documentation Postman Collection Git Repo
 
 This repository contains 2 API collections as follow for different purpose which could help you understand the usage of BIM 360 Assets API:
